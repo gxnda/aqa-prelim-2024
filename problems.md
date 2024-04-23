@@ -1,4 +1,6 @@
 
+# Problems from 'WikiBooks' for the AQA Computer Science skeleton code 2024:
+
  ## Question 1 - Symbol Case
 Lower case symbols are not accepted. E.g. if you enter 'q' it is not recognised as 'Q'. Fix this.
 
@@ -112,13 +114,15 @@ the user can replace already placed symbols, and patterns, and not lose points (
 
 
  ## Question 16 - Program allows the user to create their own patterns and symbols
-Description of problem: 1) requesting users to create their own symbols
+Description of problem: 
+
+1) requesting users to create their own symbols
 
 2) requesting for the pattern associate with the symbol
 
-3) output a empty grid for user , so user can input any coordinates hence , to create their own pattern
+3) output an empty grid for user, so user can input any coordinates hence, to create their own pattern
 
-4) make sure new symbols and pattern can be verify by the program
+4) make sure new symbols and pattern can be verified by the program
 
 EDIT: this would involve changing a text file or creating a new text file - AQA has never told students to do anything text file-based
 
@@ -126,9 +130,11 @@ EDIT: this would involve changing a text file or creating a new text file - AQA 
 
 
  ## Question 17- Making a difficulty rating program
-Description of problem: 1) this program can save each game in record including their score , number of symbol left , time to complete and the original empty grid
+Description of problem: 
 
-2) using these information to make a difficulty rating board , so user can see their rating and select the one they want to play
+1) this program can save each game in record including their score, number of symbol left, time to complete and the original empty grid
+
+2) using these information to make a difficulty rating board, so user can see their rating and select the one they want to play
 
  
 
