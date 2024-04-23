@@ -84,8 +84,9 @@ class Puzzle():
                 self.__Score = int(f.readline().rstrip())
                 self.__SymbolsLeft = int(f.readline().rstrip())
         except:
-            print("Puzzle not loaded, loading empty puzzle")
-            self = Puzzle(8, int(8 * 8 * 0.6))
+            print("Invalid puzzle provided, loading empty puzzle instead.")
+            self.__dict__ = Puzzle(8, int(8 * 8 * 0.6)).__dict__  # This is so scuffed but it works :D
+
 
     def AttemptPuzzle(self):
         Finished = False
