@@ -1,6 +1,6 @@
 # Problems from 'WikiBooks' for the AQA Computer Science skeleton code 2024:
 
-## - [ ] Question 1 - Symbol Case
+## Question 1 - Symbol Case
 
 Lower case symbols are not accepted. E.g. if you enter 'q' it is not recognised as 'Q'. Fix this.
 
@@ -54,7 +54,7 @@ c. ensure score reverts to its original value minus the 3 point undo penalty
 
 d. ensure any changes made to a cell’s symbolsNotAllowed list are undone as required
 
-## Question 11- Validation of Row and Column entries
+## Question 11 - Validation of Row and Column entries
 
 Description of problem: Validate row and column number entries to only allow numbers within the grid size.
 
