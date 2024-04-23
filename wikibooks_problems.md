@@ -1,6 +1,6 @@
 # Problems from 'WikiBooks' for the AQA Computer Science skeleton code 2024:
 
-## Question 1 - Symbol Case
+## Question 1 - Symbol Case (IMPLEMENTED)
 
 Lower case symbols are not accepted. E.g. if you enter 'q' it is not recognised as 'Q'. Fix this.
 
@@ -12,7 +12,7 @@ case the default game is played, with a suitable message to indicate this.
 ## Question 3 - Blow up a block (blocked cell)
 
 Have a 'bomb' that can remove or 'blow-up' a block in a 'blocked cell', but costs you some of your score (minus some
-points):
+points):f
 
 ## Question 4 - Add additional symbols/letters
 
