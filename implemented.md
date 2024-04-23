@@ -1,5 +1,5 @@
-- [ ] Question 1 - Symbol Case
-- [ ] Question 2 - Game file not existing
+- [x] Question 1 - Symbol Case
+- [x] Question 2 - Game file not existing
 - [ ] Question 3 - Blow up a block (blocked cell)
 - [ ] Question 4 - Add additional symbols/letters
 - [ ] Question 5 - Save current game (status)
