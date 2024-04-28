@@ -2,8 +2,8 @@
 
 # Implemented
 
-- [x] Question 1 - Symbol Case
-- [x] Question 2 - Game file not existing
+- [X] Question 1 - Symbol Case
+- [X] Question 2 - Game file not existing
 - [ ] Question 3 - Blow up a block (blocked cell)
 - [ ] Question 4 - Add additional symbols/letters
 - [ ] Question 5 - Save current game (status)
@@ -25,16 +25,28 @@
 
 Lower case symbols are not accepted. E.g. if you enter 'q' it is not recognised as 'Q'. Fix this.
 
-## Question 2 - Game file not existing
+```python
+    def __GetSymbolFromUser(self):
+        Symbol = ""
+        while not Symbol in self.__AllowedSymbols:
+            Symbol = input("Enter symbol: ").upper()
+        return Symbol
+```
 
+## Question 2 - Game file not existing
 
 If a filename is entered that does not exist, the game is unplayable (infinite loop). Amend the program so that in this
 case the default game is played, with a suitable message to indicate this.
 
+```python
+        except:
+            print("Invalid puzzle provided, loading empty puzzle instead.")
+            self.__dict__ = Puzzle(8, int(8 * 8 * 0.6)).__dict__
+```
+
 ## Question 3 - Blow up a block (blocked cell)
 
-Have a 'bomb' that can remove or 'blow-up' a block in a 'blocked cell', but costs you some of your score (minus some
-points):f
+Have a 'bomb' that can remove or 'blow-up' a block in a 'blocked cell', but costs you some of your score (minus some points)
 
 ## Question 4 - Add additional symbols/letters
 
@@ -123,11 +135,8 @@ replacing, or make them lose the points from the pattern the replaced):
 Description of problem:
 
 1) requesting users to create their own symbols
-
 2) requesting for the pattern associate with the symbol
-
 3) output an empty grid for user, so user can input any coordinates hence, to create their own pattern
-
 4) make sure new symbols and pattern can be verified by the program
 
 EDIT: this would involve changing a text file or creating a new text file - AQA has never told students to do anything
@@ -139,7 +148,6 @@ Description of problem:
 
 1) this program can save each game in record including their score, number of symbol left, time to complete and the
    original empty grid
-
 2) using these information to make a difficulty rating board, so user can see their rating and select the one they want
    to play
 
