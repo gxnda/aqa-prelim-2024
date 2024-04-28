@@ -2,24 +2,24 @@
 
 # Implemented
 
-- [X] Question 1 - Symbol Case
-- [X] Question 2 - Game file not existing
-- [ ] Question 3 - Blow up a block (blocked cell)
-- [ ] Question 4 - Add additional symbols/letters
-- [ ] Question 5 - Save current game (status)
-- [ ] Question 6 - Rotated letter/symbol
-- [ ] Question 7 - Game difficulty setting
-- [ ] Question 8 - Fix symbols placed error
-- [ ] Question 9 - Create a new puzzle file to be imported
-- [ ] Question 10 - Be able to undo a move
-- [ ] Question 11 - Validation of Row and Column entries
-- [ ] Question 12 - Fix the GetCell mapping issue
-- [ ] Question 13 - Why is UpdateCell() empty and never called?
-- [ ] Question 14 - Implement a wildcard *
-- [ ] Question 15 - Program allows the user to replace already placed symbols
-- [ ] Question 16 - Program allows the user to create their own patterns and symbols
-- [ ] Question 17 - Making a difficulty rating program
-- [ ] Question 18
+- [X]  Question 1 - Symbol Case
+- [X]  Question 2 - Game file not existing
+- [X]  Question 3 - Blow up a block (blocked cell)
+- [ ]  Question 4 - Add additional symbols/letters
+- [ ]  Question 5 - Save current game (status)
+- [ ]  Question 6 - Rotated letter/symbol
+- [ ]  Question 7 - Game difficulty setting
+- [ ]  Question 8 - Fix symbols placed error
+- [ ]  Question 9 - Create a new puzzle file to be imported
+- [ ]  Question 10 - Be able to undo a move
+- [ ]  Question 11 - Validation of Row and Column entries
+- [ ]  Question 12 - Fix the GetCell mapping issue
+- [ ]  Question 13 - Why is UpdateCell() empty and never called?
+- [ ]  Question 14 - Implement a wildcard *
+- [ ]  Question 15 - Program allows the user to replace already placed symbols
+- [ ]  Question 16 - Program allows the user to create their own patterns and symbols
+- [ ]  Question 17 - Making a difficulty rating program
+- [ ]  Question 18
 
 ## Question 1 - Symbol Case
 
@@ -47,6 +47,36 @@ case the default game is played, with a suitable message to indicate this.
 ## Question 3 - Blow up a block (blocked cell)
 
 Have a 'bomb' that can remove or 'blow-up' a block in a 'blocked cell', but costs you some of your score (minus some points)
+
+
+```python
+class Cell():
+    def __init__(self):
+        self._Symbol = ""
+        self.__SymbolsNotAllowed = ["B"]
+```
+
+```python
+Puzzle.AttemptPuzzle()
+            if CurrentCell.CheckSymbolAllowed(Symbol):
+                if Symbol == "B":  # If it's a bomb:
+                    Index = (self.__GridSize - Row) * self.__GridSize + Column - 1
+                    self.__Grid[Index] = Cell()
+                    self.__Score -= 3
+
+                else:  # If not a bomb, do normal
+                    CurrentCell.ChangeSymbolInCell(Symbol)
+
+```
+
+```python
+Puzzle.__init__()
+            self.__AllowedSymbols = []
+
+            self.__AllowedSymbols.append("B")  # Bomb
+
+            QPattern = Pattern("Q", "QQ**Q**QQ")
+```
 
 ## Question 4 - Add additional symbols/letters
 

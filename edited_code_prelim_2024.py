@@ -48,6 +48,9 @@ class Puzzle():
                 self.__Grid.append(C)
             self.__AllowedPatterns = []
             self.__AllowedSymbols = []
+
+            self.__AllowedSymbols.append("B")  # Bomb
+
             QPattern = Pattern("Q", "QQ**Q**QQ")
             self.__AllowedPatterns.append(QPattern)
             self.__AllowedSymbols.append("Q")
@@ -112,8 +115,16 @@ class Puzzle():
             Symbol = self.__GetSymbolFromUser()
             self.__SymbolsLeft -= 1
             CurrentCell = self.__GetCell(Row, Column)
+
             if CurrentCell.CheckSymbolAllowed(Symbol):
-                CurrentCell.ChangeSymbolInCell(Symbol)
+                if Symbol == "B":  # If it's a bomb:
+                    Index = (self.__GridSize - Row) * self.__GridSize + Column - 1
+                    self.__Grid[Index] = Cell()
+                    self.__Score -= 3
+
+                else:  # If not a bomb, do normal
+                    CurrentCell.ChangeSymbolInCell(Symbol)
+
                 AmountToAddToScore = self.CheckforMatchWithPattern(Row, Column)
                 if AmountToAddToScore > 0:
                     self.__Score += AmountToAddToScore
@@ -211,7 +222,7 @@ class Pattern():
 class Cell():
     def __init__(self):
         self._Symbol = ""
-        self.__SymbolsNotAllowed = []
+        self.__SymbolsNotAllowed = ["B"]
 
     def GetSymbol(self):
         if self.IsEmpty():
@@ -246,7 +257,7 @@ class BlockedCell(Cell):
         self._Symbol = "@"
 
     def CheckSymbolAllowed(self, SymbolToCheck):
-        return False
+        return SymbolToCheck == "B"
 
 if __name__ == "__main__":
     Main()
