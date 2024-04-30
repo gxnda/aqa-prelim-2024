@@ -5,7 +5,7 @@
 - [X]  Question 1 - Symbol Case
 - [X]  Question 2 - Game file not existing
 - [X]  Question 3 - Blow up a block (blocked cell)
-- [ ]  Question 4 - Add additional symbols/letters
+- [X]  Question 4 - Add additional symbols/letters
 - [ ]  Question 5 - Save current game (status)
 - [ ]  Question 6 - Rotated letter/symbol
 - [ ]  Question 7 - Game difficulty setting
