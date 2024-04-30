@@ -82,6 +82,19 @@ Puzzle.__init__()
 
 Add additional letters/symbols e.g. L or O or U or V or C or H or I.
 
+
+```python
+
+            # Custom
+            LPattern = Pattern("L", "L****LLL*")
+            self.__AllowedPatterns.append(LPattern)
+            self.__AllowedSymbols.append("L")
+
+            OPattern = Pattern("O", "OOOOOOOO*")
+            self.__AllowedPatterns.append(OPattern)
+            self.__AllowedSymbols.append("O")
+```
+
 ## Question 5 - Save current game (status)
 
 Save the current status of the game (file-handling)/writing to a text file.
