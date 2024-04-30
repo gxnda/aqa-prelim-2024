@@ -84,7 +84,7 @@ Add additional letters/symbols e.g. L or O or U or V or C or H or I.
 
 
 ```python
-
+Puzzle.__init__()
             # Custom
             LPattern = Pattern("L", "L****LLL*")
             self.__AllowedPatterns.append(LPattern)
