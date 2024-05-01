@@ -5,7 +5,7 @@
 - [X]  Question 1 - Symbol Case
 - [X]  Question 2 - Game file not existing
 - [X]  Question 3 - Blow up a block (blocked cell)
-- [ ]  Question 4 - Add additional symbols/letters
+- [X]  Question 4 - Add additional symbols/letters
 - [ ]  Question 5 - Save current game (status)
 - [ ]  Question 6 - Rotated letter/symbol
 - [ ]  Question 7 - Game difficulty setting
@@ -81,6 +81,19 @@ Puzzle.__init__()
 ## Question 4 - Add additional symbols/letters
 
 Add additional letters/symbols e.g. L or O or U or V or C or H or I.
+
+
+```python
+Puzzle.__init__()
+            # Custom
+            LPattern = Pattern("L", "L****LLL*")
+            self.__AllowedPatterns.append(LPattern)
+            self.__AllowedSymbols.append("L")
+
+            OPattern = Pattern("O", "OOOOOOOO*")
+            self.__AllowedPatterns.append(OPattern)
+            self.__AllowedSymbols.append("O")
+```
 
 ## Question 5 - Save current game (status)
 

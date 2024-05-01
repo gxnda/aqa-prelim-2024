@@ -61,6 +61,15 @@ class Puzzle():
             self.__AllowedPatterns.append(TPattern)
             self.__AllowedSymbols.append("T")
 
+            # Custom
+            LPattern = Pattern("L", "L****LLL*")
+            self.__AllowedPatterns.append(LPattern)
+            self.__AllowedSymbols.append("L")
+
+            OPattern = Pattern("O", "OOOOOOOO*")
+            self.__AllowedPatterns.append(OPattern)
+            self.__AllowedSymbols.append("O")
+
     def __LoadPuzzle(self, Filename):
         try:
             with open(Filename) as f:
