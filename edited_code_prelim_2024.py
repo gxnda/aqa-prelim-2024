@@ -70,11 +70,36 @@ class Puzzle():
             self.__AllowedPatterns.append(OPattern)
             self.__AllowedSymbols.append("O")
 
-    def __LoadPuzzle(self, Filename):
+    def __SavePuzzle(self, Filename):
         try:
+            with open(Filename, "wt") as f:
+                NoOfSymbols = str(len(self.__AllowedSymbols))
+                f.write(NoOfSymbols + "\n")
+                Symbols = self.__AllowedSymbols
+                for Symbol in Symbols:
+                    f.write(str(Symbol) + "\n")
+
+                NoOfPatterns = str(len(self.__AllowedPatterns))
+                f.write(NoOfPatterns + "\n")
+                for Pattern in self.__AllowedPatterns:
+                     f.write(f"{Pattern.GetSymbol()},{Pattern.GetPatternSequence()}" + "\n")
+
+                f.write(str(self.__GridSize))
+                for GridCell in self.__Grid:
+                    f.write(f"{GridCell.GetSymbol() if GridCell.GetSymbol() != '-' else ''},{GridCell.GetBannedSymbols()}" + "\n")
+
+                f.write(str(self.__Score) + "\n")
+                f.write(str(self.__SymbolsLeft) + "\n")
+        except Exception as e:
+            print(e)
+                
+
+
+    def __LoadPuzzle(self, Filename):
+        # try:
             with open(Filename) as f:
                 NoOfSymbols = int(f.readline().rstrip())
-                for Count in range (1, NoOfSymbols + 1):
+                for Count in range(1, NoOfSymbols + 1):
                     self.__AllowedSymbols.append(f.readline().rstrip())
                 NoOfPatterns = int(f.readline().rstrip())
                 for Count in range(1, NoOfPatterns + 1):
@@ -82,7 +107,7 @@ class Puzzle():
                     P = Pattern(Items[0], Items[1])
                     self.__AllowedPatterns.append(P)
                 self.__GridSize = int(f.readline().rstrip())
-                for Count in range (1, self.__GridSize * self.__GridSize + 1):
+                for Count in range(1, self.__GridSize * self.__GridSize + 1):
                     Items = f.readline().rstrip().split(",")
                     if Items[0] == "@":
                         C = BlockedCell()
@@ -109,7 +134,13 @@ class Puzzle():
             Valid = False
             while not Valid:
                 try:
-                    Row = int(input("Enter row number: "))
+                    Row = input("Enter row number (\"S\" to save game): ")
+                    if Row == "S":
+                        filename = input("File to save to (.txt):") + ".txt"
+                        print("Saving game...")
+                        self.__SavePuzzle(filename)
+                    else:
+                        Row = int(Row)
                     Valid = True
                 except:
                     pass
@@ -226,13 +257,22 @@ class Pattern():
         return True
 
     def GetPatternSequence(self):
-      return self.__PatternSequence
+        return self.__PatternSequence
+
+    def GetSymbol(self):
+        return self.__Symbol
 
 class Cell():
     def __init__(self):
         self._Symbol = ""
         self.__SymbolsNotAllowed = ["B"]
 
+    def GetBannedSymbols(self):
+        res = ""
+        for symbol in self.__SymbolsNotAllowed:
+            res += symbol
+        return res
+    
     def GetSymbol(self):
         if self.IsEmpty():
           return "-"
