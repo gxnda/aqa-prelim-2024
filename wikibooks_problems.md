@@ -57,15 +57,15 @@ class Cell():
 ```
 
 ```python
-Puzzle.AttemptPuzzle()
-            if CurrentCell.CheckSymbolAllowed(Symbol):
-                if Symbol == "B":  # If it's a bomb:
-                    Index = (self.__GridSize - Row) * self.__GridSize + Column - 1
-                    self.__Grid[Index] = Cell()
-                    self.__Score -= 3
+Puzzle.attempt_puzzle()
+if CurrentCell.CheckSymbolAllowed(Symbol):
+   if Symbol == "B":  # If it's a bomb:
+      Index = (self.__GridSize - Row) * self.__GridSize + Column - 1
+      self.__Grid[Index] = Cell()
+      self.__score -= 3
 
-                else:  # If not a bomb, do normal
-                    CurrentCell.ChangeSymbolInCell(Symbol)
+   else:  # If not a bomb, do normal
+      CurrentCell.change_symbol_in_cell(Symbol)
 
 ```
 
@@ -101,27 +101,30 @@ Save the current status of the game (file-handling)/writing to a text file.
 
 ```python
     def __SavePuzzle(self, Filename):
-        try:
-            with open(Filename, "wt") as f:
-                NoOfSymbols = str(len(self.__AllowedSymbols))
-                f.write(NoOfSymbols + "\n")
-                Symbols = self.__AllowedSymbols
-                for Symbol in Symbols:
-                    f.write(str(Symbol) + "\n")
 
-                NoOfPatterns = str(len(self.__AllowedPatterns))
-                f.write(NoOfPatterns + "\n")
-                for Pattern in self.__AllowedPatterns:
-                     f.write(f"{Pattern.GetSymbol()},{Pattern.GetPatternSequence()}" + "\n")
 
-                f.write(str(self.__GridSize))
-                for GridCell in self.__Grid:
-                    f.write(f"{GridCell.GetSymbol() if GridCell.GetSymbol() != '-' else ''},{GridCell.GetBannedSymbols()}" + "\n")
+try:
+   with open(Filename, "wt") as f:
+      NoOfSymbols = str(len(self.__AllowedSymbols))
+      f.write(NoOfSymbols + "\n")
+      Symbols = self.__AllowedSymbols
+      for Symbol in Symbols:
+         f.write(str(Symbol) + "\n")
 
-                f.write(str(self.__Score) + "\n")
-                f.write(str(self.__SymbolsLeft) + "\n")
-        except Exception as e:
-            print(e)
+      NoOfPatterns = str(len(self.__AllowedPatterns))
+      f.write(NoOfPatterns + "\n")
+      for Pattern in self.__AllowedPatterns:
+         f.write(f"{Pattern.get_symbol()},{Pattern.get_pattern_sequence()}" + "\n")
+
+      f.write(str(self.__GridSize))
+      for GridCell in self.__Grid:
+         f.write(
+            f"{GridCell.get_symbol() if GridCell.get_symbol() != '-' else ''},{GridCell.get_banned_symbols()}" + "\n")
+
+      f.write(str(self.__score) + "\n")
+      f.write(str(self.__symbols_left) + "\n")
+except Exception as e:
+   print(e)
 ```
 
 ## Question 6 - Rotated letter/symbol
