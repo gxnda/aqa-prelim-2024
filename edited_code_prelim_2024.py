@@ -96,7 +96,7 @@ class Puzzle():
 
 
     def __LoadPuzzle(self, Filename):
-        # try:
+        try:
             with open(Filename) as f:
                 NoOfSymbols = int(f.readline().rstrip())
                 for Count in range(1, NoOfSymbols + 1):
@@ -120,7 +120,8 @@ class Puzzle():
                         self.__Grid.append(C)
                 self.__Score = int(f.readline().rstrip())
                 self.__SymbolsLeft = int(f.readline().rstrip())
-        except:
+        except Exception as e:
+            print(e)
             print("Invalid puzzle provided, loading empty puzzle instead.")
             self.__dict__ = Puzzle(8, int(8 * 8 * 0.6)).__dict__  # This is so scuffed but it works :D
 
@@ -142,8 +143,8 @@ class Puzzle():
                     else:
                         Row = int(Row)
                     Valid = True
-                except:
-                    pass
+                except Exception as e:
+                    print(e)
             Column = -1
             Valid = False
             while not Valid:
@@ -182,6 +183,28 @@ class Puzzle():
         else:
             raise IndexError()
 
+    def __RotatePatternCCW(self, ToBeRotated):
+        # ONLY WORKS FOR 3X3 PATTERNS
+        
+        PatternSeq = [i for i in ToBeRotated.GetPatternSequence()]
+        # indices: 0,1,2,5,8,7,6,3,4 -> 2,5,8,7,6,3,0,1,4
+        #
+        # 0 1 2    2 5 8
+        # 3 4 5 -> 1 4 7 (Spiral from top left)
+        # 6 7 8    0 3 6
+        #
+        OriginalIndices = [0,1,2,5,8,7,6,3,4]
+        RotatedIndices = [2,5,8,7,6,3,0,1,4]
+        RotatedSeq = ["-" for i in range(9)]
+        
+        for i in range(len(OriginalIndices)):
+            RotatedSeq[RotatedIndices[i]] = PatternSeq[OriginalIndices[i]]
+        ret = Pattern(ToBeRotated.GetSymbol(), "".join(RotatedSeq))
+        print(ToBeRotated.GetPatternSequence(), ret.GetPatternSequence())
+        return ret
+        
+        
+    
     def CheckforMatchWithPattern(self, Row, Column):
         for StartRow in range(Row + 2, Row - 1, -1):
             for StartColumn in range(Column - 2, Column + 1):
@@ -209,8 +232,27 @@ class Puzzle():
                             self.__GetCell(StartRow - 1, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
                             self.__GetCell(StartRow - 1, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
                             return 10
-                except:
-                    pass
+
+                    # Check rotated after normal checks
+                    for P in self.__AllowedPatterns:
+                        rotated = self.__RotatePatternCCW(P)
+                        while rotated.GetPatternSequence() != P.GetPatternSequence():
+                            CurrentSymbol = self.__GetCell(Row, Column).GetSymbol()
+                            if rotated.MatchesPattern(PatternString, CurrentSymbol):
+                                self.__GetCell(StartRow, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow, StartColumn + 2).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 1, StartColumn + 2).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 2, StartColumn + 2).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 2, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 2, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 1, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 1, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
+                                return 5 ## Reduced because rotated match.
+                            rotated = self.__RotatePatternCCW(rotated)
+                            
+                except Exception as e:
+                    print(e)
         return 0
 
     def __GetSymbolFromUser(self):
@@ -248,6 +290,7 @@ class Pattern():
     def MatchesPattern(self, PatternString, SymbolPlaced):
         if SymbolPlaced != self.__Symbol:
             return False
+        print("len", len(self.__PatternSequence))
         for Count in range(0, len(self.__PatternSequence)):
             try:
                 if self.__PatternSequence[Count] == self.__Symbol and PatternString[Count] != self.__Symbol:

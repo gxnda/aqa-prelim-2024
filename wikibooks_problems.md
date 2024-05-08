@@ -6,7 +6,7 @@
 - [X]  Question 2 - Game file not existing
 - [X]  Question 3 - Blow up a block (blocked cell)
 - [X]  Question 4 - Add additional symbols/letters
-- [ ]  Question 5 - Save current game (status)
+- [X]  Question 5 - Save current game (status)
 - [ ]  Question 6 - Rotated letter/symbol
 - [ ]  Question 7 - Game difficulty setting
 - [ ]  Question 8 - Fix symbols placed error
@@ -98,6 +98,31 @@ Puzzle.__init__()
 ## Question 5 - Save current game (status)
 
 Save the current status of the game (file-handling)/writing to a text file.
+
+```python
+    def __SavePuzzle(self, Filename):
+        try:
+            with open(Filename, "wt") as f:
+                NoOfSymbols = str(len(self.__AllowedSymbols))
+                f.write(NoOfSymbols + "\n")
+                Symbols = self.__AllowedSymbols
+                for Symbol in Symbols:
+                    f.write(str(Symbol) + "\n")
+
+                NoOfPatterns = str(len(self.__AllowedPatterns))
+                f.write(NoOfPatterns + "\n")
+                for Pattern in self.__AllowedPatterns:
+                     f.write(f"{Pattern.GetSymbol()},{Pattern.GetPatternSequence()}" + "\n")
+
+                f.write(str(self.__GridSize))
+                for GridCell in self.__Grid:
+                    f.write(f"{GridCell.GetSymbol() if GridCell.GetSymbol() != '-' else ''},{GridCell.GetBannedSymbols()}" + "\n")
+
+                f.write(str(self.__Score) + "\n")
+                f.write(str(self.__SymbolsLeft) + "\n")
+        except Exception as e:
+            print(e)
+```
 
 ## Question 6 - Rotated letter/symbol
 
