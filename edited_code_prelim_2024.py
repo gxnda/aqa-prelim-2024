@@ -142,7 +142,8 @@ class Puzzle():
                         self.__SavePuzzle(filename)
                     else:
                         Row = int(Row)
-                    Valid = True
+                        Valid = True
+
                 except Exception as e:
                     print(e)
             Column = -1
