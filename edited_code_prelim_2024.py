@@ -4,358 +4,353 @@
 # In[ ]:
 
 
-# Skeleton Program code for the AQA A Level Paper 1 Summer 2024 examination
-# this code should be used in conjunction with the Preliminary Material
-# written by the AQA Programmer Team
-# developed in the Python 3.9.4 programming environment
+#Skeleton Program code for the AQA A Level Paper 1 Summer 2024 examination
+#this code should be used in conjunction with the Preliminary Material
+#written by the AQA Programmer Team
+#developed in the Python 3.9.4 programming environment
 
 import random
+import os
 
-
-def main():
-    again = "y"
-    while again == "y":
-        filename = input("Press Enter to start a standard puzzle or enter name of file to load: ")
-        if len(filename) > 0:
-            my_puzzle = Puzzle(filename + ".txt")
+def Main():
+    Again = "y"
+    Score = 0
+    while Again == "y":
+        Filename = input("Press Enter to start a standard puzzle or enter name of file to load: ")
+        if len(Filename) > 0:
+            MyPuzzle = Puzzle(Filename + ".txt")
         else:
-            my_puzzle = Puzzle(8, int(8 * 8 * 0.6))
-        score = my_puzzle.attempt_puzzle()
-        print("Puzzle finished. Your score was: " + str(score))
-        again = input("Do another puzzle? ").lower()
+            MyPuzzle = Puzzle(8, int(8 * 8 * 0.6))
+        Score = MyPuzzle.AttemptPuzzle()
+        print("Puzzle finished. Your score was: " + str(Score))
+        Again = input("Do another puzzle? ").lower()
 
-
-class Puzzle:
+class Puzzle():
     def __init__(self, *args):
         if len(args) == 1:
-            self.__score = 0
-            self.__symbols_left = 0
-            self.__grid_size = 0
-            self.__grid = []
-            self.__allowed_patterns = []
-            self.__allowed_symbols = []
-            self.__load_puzzle(args[0])
+            self.__Score = 0
+            self.__SymbolsLeft = 0
+            self.__GridSize = 0
+            self.__Grid = []
+            self.__AllowedPatterns = []
+            self.__AllowedSymbols = []
+            self.__LoadPuzzle(args[0])
         else:
-            self.__score = 0
-            self.__symbols_left = args[1]
-            self.__grid_size = args[0]
-            self.__grid = []
-            for count in range(1, self.__grid_size * self.__grid_size + 1):
+            self.__Score = 0
+            self.__SymbolsLeft = args[1]
+            self.__GridSize = args[0]
+            self.__Grid = []
+            for Count in range(1, self.__GridSize * self.__GridSize + 1):
                 if random.randrange(1, 101) < 90:
-                    cell = Cell()
+                    C = Cell()
                 else:
-                    cell = BlockedCell()
-                self.__grid.append(cell)
-            self.__allowed_patterns = []
-            self.__allowed_symbols = []
+                    C = BlockedCell()
+                self.__Grid.append(C)
+            self.__AllowedPatterns = []
+            self.__AllowedSymbols = []
 
-            self.__allowed_symbols.append("B")  # Bomb
+            self.__AllowedSymbols.append("B")  # Bomb
 
-            q_pattern = Pattern("Q", "QQ**Q**QQ")
-            self.__allowed_patterns.append(q_pattern)
-            self.__allowed_symbols.append("Q")
-            x_pattern = Pattern("X", "X*X*X*X*X")
-            self.__allowed_patterns.append(x_pattern)
-            self.__allowed_symbols.append("X")
-            t_pattern = Pattern("T", "TTT**T**T")
-            self.__allowed_patterns.append(t_pattern)
-            self.__allowed_symbols.append("T")
+            QPattern = Pattern("Q", "QQ**Q**QQ")
+            self.__AllowedPatterns.append(QPattern)
+            self.__AllowedSymbols.append("Q")
+            XPattern = Pattern("X", "X*X*X*X*X")
+            self.__AllowedPatterns.append(XPattern)
+            self.__AllowedSymbols.append("X")
+            TPattern = Pattern("T", "TTT**T**T")
+            self.__AllowedPatterns.append(TPattern)
+            self.__AllowedSymbols.append("T")
 
             # Custom
-            l_pattern = Pattern("L", "L****LLL*")
-            self.__allowed_patterns.append(l_pattern)
-            self.__allowed_symbols.append("L")
+            LPattern = Pattern("L", "L****LLL*")
+            self.__AllowedPatterns.append(LPattern)
+            self.__AllowedSymbols.append("L")
 
-            o_pattern = Pattern("O", "OOOOOOOO*")
-            self.__allowed_patterns.append(o_pattern)
-            self.__allowed_symbols.append("O")
+            OPattern = Pattern("O", "OOOOOOOO*")
+            self.__AllowedPatterns.append(OPattern)
+            self.__AllowedSymbols.append("O")
 
-    def __save_puzzle(self, filename):
+    def __SavePuzzle(self, Filename):
         try:
-            with open(filename, "wt") as f:
-                no_of_symbols = str(len(self.__allowed_symbols))
-                f.write(no_of_symbols + "\n")
-                symbols = self.__allowed_symbols
-                for symbol in symbols:
-                    f.write(str(symbol) + "\n")
+            with open(Filename, "wt") as f:
+                NoOfSymbols = str(len(self.__AllowedSymbols))
+                f.write(NoOfSymbols + "\n")
+                Symbols = self.__AllowedSymbols
+                for Symbol in Symbols:
+                    f.write(str(Symbol) + "\n")
 
-                no_of_patterns = str(len(self.__allowed_patterns))
-                f.write(no_of_patterns + "\n")
-                for pattern in self.__allowed_patterns:
-                    f.write(f"{pattern.get_symbol()},{pattern.get_pattern_sequence()}" + "\n")
+                NoOfPatterns = str(len(self.__AllowedPatterns))
+                f.write(NoOfPatterns + "\n")
+                for Pattern in self.__AllowedPatterns:
+                     f.write(f"{Pattern.GetSymbol()},{Pattern.GetPatternSequence()}" + "\n")
 
-                f.write(str(self.__grid_size))
-                for grid_cell in self.__grid:
-                    f.write(
-                        f"{grid_cell.get_symbol() if grid_cell.get_symbol() != '-' else ''},{grid_cell.get_banned_symbols()}" + "\n")
+                f.write(str(self.__GridSize))
+                for GridCell in self.__Grid:
+                    f.write(f"{GridCell.GetSymbol() if GridCell.GetSymbol() != '-' else ''},{GridCell.GetBannedSymbols()}" + "\n")
 
-                f.write(str(self.__score) + "\n")
-                f.write(str(self.__symbols_left) + "\n")
+                f.write(str(self.__Score) + "\n")
+                f.write(str(self.__SymbolsLeft) + "\n")
         except Exception as e:
             print(e)
+                
 
-    def __load_puzzle(self, filename):
+
+    def __LoadPuzzle(self, Filename):
         try:
-            with open(filename) as f:
-                no_of_symbols = int(f.readline().rstrip())
-                for count in range(1, no_of_symbols + 1):
-                    self.__allowed_symbols.append(f.readline().rstrip())
-                no_of_patterns = int(f.readline().rstrip())
-                for count in range(1, no_of_patterns + 1):
-                    items = f.readline().rstrip().split(",")
-                    pattern = Pattern(items[0], items[1])
-                    self.__allowed_patterns.append(pattern)
-                self.__grid_size = int(f.readline().rstrip())
-                for count in range(1, self.__grid_size * self.__grid_size + 1):
-                    items = f.readline().rstrip().split(",")
-                    if items[0] == "@":
-                        cell = BlockedCell()
-                        self.__grid.append(cell)
+            with open(Filename) as f:
+                NoOfSymbols = int(f.readline().rstrip())
+                for Count in range(1, NoOfSymbols + 1):
+                    self.__AllowedSymbols.append(f.readline().rstrip())
+                NoOfPatterns = int(f.readline().rstrip())
+                for Count in range(1, NoOfPatterns + 1):
+                    Items = f.readline().rstrip().split(",")
+                    P = Pattern(Items[0], Items[1])
+                    self.__AllowedPatterns.append(P)
+                self.__GridSize = int(f.readline().rstrip())
+                for Count in range(1, self.__GridSize * self.__GridSize + 1):
+                    Items = f.readline().rstrip().split(",")
+                    if Items[0] == "@":
+                        C = BlockedCell()
+                        self.__Grid.append(C)
                     else:
-                        cell = Cell()
-                        cell.change_symbol_in_cell(items[0])
-                        for current_symbol in range(1, len(items)):
-                            cell.add_to_not_allowed_symbols(items[current_symbol])
-                        self.__grid.append(cell)
-                self.__score = int(f.readline().rstrip())
-                self.__symbols_left = int(f.readline().rstrip())
+                        C = Cell()
+                        C.ChangeSymbolInCell(Items[0])
+                        for CurrentSymbol in range(1, len(Items)):
+                            C.AddToNotAllowedSymbols(Items[CurrentSymbol])
+                        self.__Grid.append(C)
+                self.__Score = int(f.readline().rstrip())
+                self.__SymbolsLeft = int(f.readline().rstrip())
         except Exception as e:
             print(e)
             print("Invalid puzzle provided, loading empty puzzle instead.")
             self.__dict__ = Puzzle(8, int(8 * 8 * 0.6)).__dict__  # This is so scuffed but it works :D
 
-    def attempt_puzzle(self):
-        finished = False
-        while not finished:
-            self.display_puzzle()
-            print("Current score: " + str(self.__score))
-            row = -1
-            valid = False
-            while not valid:
+
+    def AttemptPuzzle(self):
+        Finished = False
+        while not Finished:
+            self.DisplayPuzzle()
+            print("Current score: " + str(self.__Score))
+            Row = -1
+            Valid = False
+            while not Valid:
                 try:
-                    row = input("Enter row number (\"S\" to save game): ")
-                    if row == "S":
+                    Row = input("Enter row number (\"S\" to save game): ")
+                    if Row == "S":
                         filename = input("File to save to (.txt):") + ".txt"
                         print("Saving game...")
-                        self.__save_puzzle(filename)
+                        self.__SavePuzzle(filename)
                     else:
-                        row = int(row)
-                    valid = True
+                        Row = int(Row)
+                    Valid = True
                 except Exception as e:
                     print(e)
-            column = -1
-            valid = False
-            while not valid:
+            Column = -1
+            Valid = False
+            while not Valid:
                 try:
-                    column = int(input("Enter column number: "))
-                    valid = True
+                    Column = int(input("Enter column number: "))
+                    Valid = True
                 except:
                     pass
-            symbol = self.__get_symbol_from_user()
-            self.__symbols_left -= 1
-            current_cell = self.__get_cell(row, column)
+            Symbol = self.__GetSymbolFromUser()
+            self.__SymbolsLeft -= 1
+            CurrentCell = self.__GetCell(Row, Column)
 
-            if current_cell.CheckSymbolAllowed(symbol):
-                if symbol == "B":  # If it's a bomb:
-                    index = (self.__grid_size - row) * self.__grid_size + column - 1
-                    self.__grid[index] = Cell()
-                    self.__score -= 3
+            if CurrentCell.CheckSymbolAllowed(Symbol):
+                if Symbol == "B":  # If it's a bomb:
+                    Index = (self.__GridSize - Row) * self.__GridSize + Column - 1
+                    self.__Grid[Index] = Cell()
+                    self.__Score -= 3
 
                 else:  # If not a bomb, do normal
-                    current_cell.change_symbol_in_cell(symbol)
+                    CurrentCell.ChangeSymbolInCell(Symbol)
 
-                amount_to_add_to_score = self.check_for_match_with_pattern(row, column)
-                if amount_to_add_to_score > 0:
-                    self.__score += amount_to_add_to_score
-            if self.__symbols_left == 0:
-                finished = True
+                AmountToAddToScore = self.CheckforMatchWithPattern(Row, Column)
+                if AmountToAddToScore > 0:
+                    self.__Score += AmountToAddToScore
+            if self.__SymbolsLeft == 0:
+                Finished = True
         print()
-        self.display_puzzle()
+        self.DisplayPuzzle()
         print()
-        return self.__score
+        return self.__Score
 
-    def __get_cell(self, row, column):
-        index = (self.__grid_size - row) * self.__grid_size + column - 1
-        if index >= 0:
-            return self.__grid[index]
+    def __GetCell(self, Row, Column):
+        Index = (self.__GridSize - Row) * self.__GridSize + Column - 1
+        if Index >= 0:
+            return self.__Grid[Index]
         else:
             raise IndexError()
 
-    @staticmethod
-    def __rotate_pattern_ccw(to_be_rotated):
+    def __RotatePatternCCW(self, ToBeRotated):
         # ONLY WORKS FOR 3X3 PATTERNS
-
-        PatternSeq = [i for i in to_be_rotated.get_pattern_sequence()]
+        
+        PatternSeq = [i for i in ToBeRotated.GetPatternSequence()]
         # indices: 0,1,2,5,8,7,6,3,4 -> 2,5,8,7,6,3,0,1,4
         #
         # 0 1 2    2 5 8
         # 3 4 5 -> 1 4 7 (Spiral from top left)
         # 6 7 8    0 3 6
         #
-        OriginalIndices = [0, 1, 2, 5, 8, 7, 6, 3, 4]
-        RotatedIndices = [2, 5, 8, 7, 6, 3, 0, 1, 4]
+        OriginalIndices = [0,1,2,5,8,7,6,3,4]
+        RotatedIndices = [2,5,8,7,6,3,0,1,4]
         RotatedSeq = ["-" for i in range(9)]
-
+        
         for i in range(len(OriginalIndices)):
             RotatedSeq[RotatedIndices[i]] = PatternSeq[OriginalIndices[i]]
-        ret = Pattern(to_be_rotated.get_symbol(), "".join(RotatedSeq))
-        print(to_be_rotated.get_pattern_sequence(), ret.get_pattern_sequence())
+        ret = Pattern(ToBeRotated.GetSymbol(), "".join(RotatedSeq))
+        print(ToBeRotated.GetPatternSequence(), ret.GetPatternSequence())
         return ret
-
-    def check_for_match_with_pattern(self, row, column):
-        for start_row in range(row + 2, row - 1, -1):
-            for start_column in range(column - 2, column + 1):
+        
+        
+    
+    def CheckforMatchWithPattern(self, Row, Column):
+        for StartRow in range(Row + 2, Row - 1, -1):
+            for StartColumn in range(Column - 2, Column + 1):
                 try:
-                    pattern_string = ""
-                    pattern_string += self.__get_cell(start_row, start_column).get_symbol()
-                    pattern_string += self.__get_cell(start_row, start_column + 1).get_symbol()
-                    pattern_string += self.__get_cell(start_row, start_column + 2).get_symbol()
-                    pattern_string += self.__get_cell(start_row - 1, start_column + 2).get_symbol()
-                    pattern_string += self.__get_cell(start_row - 2, start_column + 2).get_symbol()
-                    pattern_string += self.__get_cell(start_row - 2, start_column + 1).get_symbol()
-                    pattern_string += self.__get_cell(start_row - 2, start_column).get_symbol()
-                    pattern_string += self.__get_cell(start_row - 1, start_column).get_symbol()
-                    pattern_string += self.__get_cell(start_row - 1, start_column + 1).get_symbol()
-                    for P in self.__allowed_patterns:
-                        CurrentSymbol = self.__get_cell(row, column).get_symbol()
-                        if P.matches_pattern(pattern_string, CurrentSymbol):
-                            self.__get_cell(start_row, start_column).add_to_not_allowed_symbols(CurrentSymbol)
-                            self.__get_cell(start_row, start_column + 1).add_to_not_allowed_symbols(CurrentSymbol)
-                            self.__get_cell(start_row, start_column + 2).add_to_not_allowed_symbols(CurrentSymbol)
-                            self.__get_cell(start_row - 1, start_column + 2).add_to_not_allowed_symbols(CurrentSymbol)
-                            self.__get_cell(start_row - 2, start_column + 2).add_to_not_allowed_symbols(CurrentSymbol)
-                            self.__get_cell(start_row - 2, start_column + 1).add_to_not_allowed_symbols(CurrentSymbol)
-                            self.__get_cell(start_row - 2, start_column).add_to_not_allowed_symbols(CurrentSymbol)
-                            self.__get_cell(start_row - 1, start_column).add_to_not_allowed_symbols(CurrentSymbol)
-                            self.__get_cell(start_row - 1, start_column + 1).add_to_not_allowed_symbols(CurrentSymbol)
+                    PatternString = ""
+                    PatternString += self.__GetCell(StartRow, StartColumn).GetSymbol()
+                    PatternString += self.__GetCell(StartRow, StartColumn + 1).GetSymbol()
+                    PatternString += self.__GetCell(StartRow, StartColumn + 2).GetSymbol()
+                    PatternString += self.__GetCell(StartRow - 1, StartColumn + 2).GetSymbol()
+                    PatternString += self.__GetCell(StartRow - 2, StartColumn + 2).GetSymbol()
+                    PatternString += self.__GetCell(StartRow - 2, StartColumn + 1).GetSymbol()
+                    PatternString += self.__GetCell(StartRow - 2, StartColumn).GetSymbol()
+                    PatternString += self.__GetCell(StartRow - 1, StartColumn).GetSymbol()
+                    PatternString += self.__GetCell(StartRow - 1, StartColumn + 1).GetSymbol()
+                    for P in self.__AllowedPatterns:
+                        CurrentSymbol = self.__GetCell(Row, Column).GetSymbol()
+                        if P.MatchesPattern(PatternString, CurrentSymbol):
+                            self.__GetCell(StartRow, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
+                            self.__GetCell(StartRow, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
+                            self.__GetCell(StartRow, StartColumn + 2).AddToNotAllowedSymbols(CurrentSymbol)
+                            self.__GetCell(StartRow - 1, StartColumn + 2).AddToNotAllowedSymbols(CurrentSymbol)
+                            self.__GetCell(StartRow - 2, StartColumn + 2).AddToNotAllowedSymbols(CurrentSymbol)
+                            self.__GetCell(StartRow - 2, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
+                            self.__GetCell(StartRow - 2, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
+                            self.__GetCell(StartRow - 1, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
+                            self.__GetCell(StartRow - 1, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
                             return 10
 
                     # Check rotated after normal checks
-                    for P in self.__allowed_patterns:
-                        rotated = self.__rotate_pattern_ccw(P)
-                        while rotated.get_pattern_sequence() != P.get_pattern_sequence():
-                            CurrentSymbol = self.__get_cell(row, column).get_symbol()
-                            if rotated.matches_pattern(pattern_string, CurrentSymbol):
-                                self.__get_cell(start_row, start_column).add_to_not_allowed_symbols(CurrentSymbol)
-                                self.__get_cell(start_row, start_column + 1).add_to_not_allowed_symbols(CurrentSymbol)
-                                self.__get_cell(start_row, start_column + 2).add_to_not_allowed_symbols(CurrentSymbol)
-                                self.__get_cell(start_row - 1, start_column + 2).add_to_not_allowed_symbols(
-                                    CurrentSymbol)
-                                self.__get_cell(start_row - 2, start_column + 2).add_to_not_allowed_symbols(
-                                    CurrentSymbol)
-                                self.__get_cell(start_row - 2, start_column + 1).add_to_not_allowed_symbols(
-                                    CurrentSymbol)
-                                self.__get_cell(start_row - 2, start_column).add_to_not_allowed_symbols(CurrentSymbol)
-                                self.__get_cell(start_row - 1, start_column).add_to_not_allowed_symbols(CurrentSymbol)
-                                self.__get_cell(start_row - 1, start_column + 1).add_to_not_allowed_symbols(
-                                    CurrentSymbol)
-                                return 5  ## Reduced because rotated match.
-                            rotated = self.__rotate_pattern_ccw(rotated)
-
+                    for P in self.__AllowedPatterns:
+                        rotated = self.__RotatePatternCCW(P)
+                        while rotated.GetPatternSequence() != P.GetPatternSequence():
+                            CurrentSymbol = self.__GetCell(Row, Column).GetSymbol()
+                            if rotated.MatchesPattern(PatternString, CurrentSymbol):
+                                self.__GetCell(StartRow, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow, StartColumn + 2).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 1, StartColumn + 2).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 2, StartColumn + 2).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 2, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 2, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 1, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
+                                self.__GetCell(StartRow - 1, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
+                                return 5 ## Reduced because rotated match.
+                            rotated = self.__RotatePatternCCW(rotated)
+                            
                 except Exception as e:
                     print(e)
         return 0
 
-    def __get_symbol_from_user(self):
-        symbol = ""
-        while symbol not in self.__allowed_symbols:
-            symbol = input("Enter symbol: ").upper()
-        return symbol
+    def __GetSymbolFromUser(self):
+        Symbol = ""
+        while not Symbol in self.__AllowedSymbols:
+            Symbol = input("Enter symbol: ").upper()
+        return Symbol
+    def __CreateHorizontalLine(self):
+        Line = "  "
+        for Count in range(1, self.__GridSize * 2 + 2):
+            Line = Line + "-"
+        return Line
 
-    def __create_horizontal_line(self):
-        line = "  "
-        for count in range(1, self.__grid_size * 2 + 2):
-            line = line + "-"
-        return line
-
-    def display_puzzle(self):
+    def DisplayPuzzle(self):
         print()
-        if self.__grid_size < 10:
+        if self.__GridSize < 10:
             print("  ", end='')
-            for count in range(1, self.__grid_size + 1):
-                print(" " + str(count), end='')
+            for Count in range(1, self.__GridSize + 1):
+                print(" " + str(Count), end='')
         print()
-        print(self.__create_horizontal_line())
-        for count in range(0, len(self.__grid)):
-            if count % self.__grid_size == 0 and self.__grid_size < 10:
-                print(str(self.__grid_size - ((count + 1) // self.__grid_size)) + " ", end='')
-            print("|" + self.__grid[count].get_symbol(), end='')
-            if (count + 1) % self.__grid_size == 0:
+        print(self.__CreateHorizontalLine())
+        for Count in range(0, len(self.__Grid)):
+            if Count % self.__GridSize == 0 and self.__GridSize < 10:
+                print(str(self.__GridSize - ((Count + 1) // self.__GridSize)) + " ", end='')
+            print("|" + self.__Grid[Count].GetSymbol(), end='')
+            if (Count + 1) % self.__GridSize == 0:
                 print("|")
-                print(self.__create_horizontal_line())
+                print(self.__CreateHorizontalLine())
 
+class Pattern():
+    def __init__(self, SymbolToUse, PatternString):
+        self.__Symbol = SymbolToUse
+        self.__PatternSequence = PatternString
 
-class Pattern:
-    def __init__(self, symbol_to_use, pattern_string):
-        self.__symbol = symbol_to_use
-        self.__pattern_sequence = pattern_string
-
-    def matches_pattern(self, pattern_string, symbol_placed):
-        if symbol_placed != self.__symbol:
+    def MatchesPattern(self, PatternString, SymbolPlaced):
+        if SymbolPlaced != self.__Symbol:
             return False
-        print("len", len(self.__pattern_sequence))
-        for count in range(0, len(self.__pattern_sequence)):
+        print("len", len(self.__PatternSequence))
+        for Count in range(0, len(self.__PatternSequence)):
             try:
-                if self.__pattern_sequence[count] == self.__symbol and pattern_string[count] != self.__symbol:
+                if self.__PatternSequence[Count] == self.__Symbol and PatternString[Count] != self.__Symbol:
                     return False
             except Exception as ex:
                 print(f"EXCEPTION in MatchesPattern: {ex}")
         return True
 
-    def get_pattern_sequence(self):
-        return self.__pattern_sequence
+    def GetPatternSequence(self):
+        return self.__PatternSequence
 
-    def get_symbol(self):
-        return self.__symbol
+    def GetSymbol(self):
+        return self.__Symbol
 
-
-class Cell:
+class Cell():
     def __init__(self):
-        self._symbol = ""
-        self.__symbols_not_allowed = ["B"]
+        self._Symbol = ""
+        self.__SymbolsNotAllowed = ["B"]
 
-    def get_banned_symbols(self):
+    def GetBannedSymbols(self):
         res = ""
-        for symbol in self.__symbols_not_allowed:
+        for symbol in self.__SymbolsNotAllowed:
             res += symbol
         return res
-
-    def get_symbol(self):
-        if self.is_empty():
-            return "-"
+    
+    def GetSymbol(self):
+        if self.IsEmpty():
+          return "-"
         else:
-            return self._symbol
-
-    def is_empty(self):
-        if len(self._symbol) == 0:
+          return self._Symbol
+    
+    def IsEmpty(self):
+        if len(self._Symbol) == 0:
             return True
         else:
             return False
 
-    def change_symbol_in_cell(self, new_symbol):
-        self._symbol = new_symbol
+    def ChangeSymbolInCell(self, NewSymbol):
+        self._Symbol = NewSymbol
 
-    def CheckSymbolAllowed(self, symbol_to_check):
-        for Item in self.__symbols_not_allowed:
-            if Item == symbol_to_check:
+    def CheckSymbolAllowed(self, SymbolToCheck):
+        for Item in self.__SymbolsNotAllowed:
+            if Item == SymbolToCheck:
                 return False
         return True
 
-    def add_to_not_allowed_symbols(self, symbol_to_add):
-        self.__symbols_not_allowed.append(symbol_to_add)
+    def AddToNotAllowedSymbols(self, SymbolToAdd):
+        self.__SymbolsNotAllowed.append(SymbolToAdd)
 
-    def update_cell(self):
+    def UpdateCell(self):
         pass
-
 
 class BlockedCell(Cell):
     def __init__(self):
         super(BlockedCell, self).__init__()
         self._Symbol = "@"
 
-    def CheckSymbolAllowed(self, symbol_to_check):
-        return symbol_to_check == "B"
-
+    def CheckSymbolAllowed(self, SymbolToCheck):
+        return SymbolToCheck == "B"
 
 if __name__ == "__main__":
-    main()
+    Main()
+
