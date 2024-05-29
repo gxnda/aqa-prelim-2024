@@ -158,13 +158,7 @@ class Puzzle():
             self.__SymbolsLeft -= 1
             CurrentCell = self.__GetCell(Row, Column)
 
-            if CurrentCell.CheckSymbolAllowed(Symbol):
-                if Symbol == "B":  # If it's a bomb:
-                    Index = (self.__GridSize - Row) * self.__GridSize + Column - 1
-                    self.__Grid[Index] = Cell()
-                    self.__Score -= 3
-
-                else:  # If not a bomb, do normal
+            if CurrentCell.CheckSymbolAllowed(Symbol):  # If not a bomb, do normal
                     CurrentCell.ChangeSymbolInCell(Symbol)
 
                 AmountToAddToScore = self.CheckforMatchWithPattern(Row, Column)
@@ -172,6 +166,10 @@ class Puzzle():
                     self.__Score += AmountToAddToScore
             if self.__SymbolsLeft == 0:
                 Finished = True
+        elif Symbol == "B":  # If it's a bomb:
+                    Index = (self.__GridSize - Row) * self.__GridSize + Column - 1
+                    self.__Grid[Index] = Cell()
+                    self.__Score -= 3
         print()
         self.DisplayPuzzle()
         print()
