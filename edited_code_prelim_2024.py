@@ -92,8 +92,6 @@ class Puzzle():
                 f.write(str(self.__SymbolsLeft) + "\n")
         except Exception as e:
             print(e)
-                
-
 
     def __LoadPuzzle(self, Filename):
         try:
@@ -159,17 +157,17 @@ class Puzzle():
             CurrentCell = self.__GetCell(Row, Column)
 
             if CurrentCell.CheckSymbolAllowed(Symbol):  # If not a bomb, do normal
-                    CurrentCell.ChangeSymbolInCell(Symbol)
+                CurrentCell.ChangeSymbolInCell(Symbol)
 
                 AmountToAddToScore = self.CheckforMatchWithPattern(Row, Column)
                 if AmountToAddToScore > 0:
                     self.__Score += AmountToAddToScore
             if self.__SymbolsLeft == 0:
                 Finished = True
-        elif Symbol == "B":  # If it's a bomb:
-                    Index = (self.__GridSize - Row) * self.__GridSize + Column - 1
-                    self.__Grid[Index] = Cell()
-                    self.__Score -= 3
+            elif Symbol == "B":  # If it's a bomb:
+                        Index = (self.__GridSize - Row) * self.__GridSize + Column - 1
+                        self.__Grid[Index] = Cell()
+                        self.__Score -= 3
         print()
         self.DisplayPuzzle()
         print()
@@ -199,7 +197,6 @@ class Puzzle():
         for i in range(len(OriginalIndices)):
             RotatedSeq[RotatedIndices[i]] = PatternSeq[OriginalIndices[i]]
         ret = Pattern(ToBeRotated.GetSymbol(), "".join(RotatedSeq))
-        print(ToBeRotated.GetPatternSequence(), ret.GetPatternSequence())
         return ret
         
         
@@ -247,11 +244,11 @@ class Puzzle():
                                 self.__GetCell(StartRow - 2, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
                                 self.__GetCell(StartRow - 1, StartColumn).AddToNotAllowedSymbols(CurrentSymbol)
                                 self.__GetCell(StartRow - 1, StartColumn + 1).AddToNotAllowedSymbols(CurrentSymbol)
-                                return 5 ## Reduced because rotated match.
+                                return 5  ## Reduced because rotated match.
                             rotated = self.__RotatePatternCCW(rotated)
                             
-                except Exception as e:
-                    print(e)
+                except IndexError as e:
+                    pass
         return 0
 
     def __GetSymbolFromUser(self):
