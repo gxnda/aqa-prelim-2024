@@ -102,13 +102,16 @@ class Puzzle():
                 except:
                     pass
             Symbol = self.__GetSymbolFromUser()
-            self.__SymbolsLeft -= 1
             CurrentCell = self.__GetCell(Row, Column)
             if CurrentCell.CheckSymbolAllowed(Symbol):
+                self.__SymbolsLeft -= 1
                 CurrentCell.ChangeSymbolInCell(Symbol)
                 AmountToAddToScore = self.CheckforMatchWithPattern(Row, Column)
                 if AmountToAddToScore > 0:
                     self.__Score += AmountToAddToScore
+            else:
+                print("Invalid symbol, please try again.")
+                
             if self.__SymbolsLeft == 0:
                 Finished = True
         print()

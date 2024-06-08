@@ -9,7 +9,7 @@
 - [X]  Question 5 - Save current game (status)
 - [ ]  Question 6 - Rotated letter/symbol
 - [ ]  Question 7 - Game difficulty setting
-- [ ]  Question 8 - Fix symbols placed error
+- [X]  Question 8 - Fix symbols placed error
 - [ ]  Question 9 - Create a new puzzle file to be imported
 - [ ]  Question 10 - Be able to undo a move
 - [ ]  Question 11 - Validation of Row and Column entries
@@ -135,6 +135,19 @@ Offer 'game difficulty' setting to change level of game (with greater number of 
 ## Question 8 - Fix symbols placed error
 
 When you try place a symbol in a invalid cell it still counts as a placed cell towards the amount of symbols placed.
+
+```python
+Symbol = self.__GetSymbolFromUser()
+            CurrentCell = self.__GetCell(Row, Column)
+            if CurrentCell.CheckSymbolAllowed(Symbol):
+                self.__SymbolsLeft -= 1
+                CurrentCell.ChangeSymbolInCell(Symbol)
+                AmountToAddToScore = self.CheckforMatchWithPattern(Row, Column)
+                if AmountToAddToScore > 0:
+                    self.__Score += AmountToAddToScore
+            else:
+                print("Invalid symbol, please try again.")
+```
 
 ## Question 9 - Create a new puzzle file to be imported
 
