@@ -8,7 +8,7 @@
 - [X]  Question 4 - Add additional symbols/letters
 - [X]  Question 5 - Save current game (status)
 - [ ]  Question 6 - Rotated letter/symbol
-- [ ]  Question 7 - Game difficulty setting
+- [X]  Question 7 - Game difficulty setting
 - [ ]  Question 8 - Fix symbols placed error
 - [ ]  Question 9 - Create a new puzzle file to be imported
 - [ ]  Question 10 - Be able to undo a move
