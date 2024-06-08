@@ -135,6 +135,54 @@ Score a 'rotated' symbol/letter (lower score?)
 
 Offer 'game difficulty' setting to change level of game (with greater number of blocked cells = 'more difficult')
 
+
+```python
+
+def Main():
+    Again = "y"
+    Score = 0
+    while Again == "y":
+        Filename = input("Press Enter to start a standard puzzle or enter name of file to load: ")
+        if len(Filename) > 0:
+            MyPuzzle = Puzzle(Filename + ".txt")
+        else:
+            difficulty = int(input("Please choose a difficulty (1-5): "))
+            MyPuzzle = Puzzle(8, int(8 * 8 * 0.6), difficulty)
+        Score = MyPuzzle.AttemptPuzzle()
+        print("Puzzle finished. Your score was: " + str(Score))
+        Again = input("Do another puzzle? ").lower()
+
+class Puzzle():
+    def __init__(self, *args):
+        if len(args) == 1:  # Load existing puzzle
+            self.__Score = 0
+            self.__SymbolsLeft = 0
+            self.__GridSize = 0
+            self.__Grid = []
+            self.__AllowedPatterns = []
+            self.__AllowedSymbols = []
+            self.__LoadPuzzle(args[0])
+        else: # Create new puzzle
+            self.__Score = 0
+            self.__SymbolsLeft = args[1]
+            self.__GridSize = args[0]
+            self.__Grid = []
+            difficulty = args[2]
+            difficulty_mappings = {
+                1: 95,
+                2: 90,
+                3: 85,
+                4: 75,
+                5: 50,
+                }
+            for Count in range(1, self.__GridSize * self.__GridSize + 1):
+                if random.randrange(1, 101) < difficulty_mappings[difficulty]:
+                    C = Cell()
+                else:
+                    C = BlockedCell()
+
+```
+
 ## Question 8 - Fix symbols placed error
 
 When you try place a symbol in a invalid cell it still counts as a placed cell towards the amount of symbols placed.
