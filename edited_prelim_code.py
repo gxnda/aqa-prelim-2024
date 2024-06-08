@@ -14,14 +14,15 @@ def Main():
         if len(Filename) > 0:
             MyPuzzle = Puzzle(Filename + ".txt")
         else:
-            MyPuzzle = Puzzle(8, int(8 * 8 * 0.6))
+            difficulty = int(input("Please choose a difficulty (1-5): "))
+            MyPuzzle = Puzzle(8, int(8 * 8 * 0.6), difficulty)
         Score = MyPuzzle.AttemptPuzzle()
         print("Puzzle finished. Your score was: " + str(Score))
         Again = input("Do another puzzle? ").lower()
 
 class Puzzle():
     def __init__(self, *args):
-        if len(args) == 1:
+        if len(args) == 1:  # Load existing puzzle
             self.__Score = 0
             self.__SymbolsLeft = 0
             self.__GridSize = 0
@@ -29,13 +30,21 @@ class Puzzle():
             self.__AllowedPatterns = []
             self.__AllowedSymbols = []
             self.__LoadPuzzle(args[0])
-        else:
+        else: # Create new puzzle
             self.__Score = 0
             self.__SymbolsLeft = args[1]
             self.__GridSize = args[0]
             self.__Grid = []
+            difficulty = args[2]
+            difficulty_mappings = {
+                1: 95,
+                2: 90,
+                3: 85,
+                4: 75,
+                5: 50,
+                }
             for Count in range(1, self.__GridSize * self.__GridSize + 1):
-                if random.randrange(1, 101) < 90:
+                if random.randrange(1, 101) < difficulty_mappings[difficulty]:
                     C = Cell()
                 else:
                     C = BlockedCell()
