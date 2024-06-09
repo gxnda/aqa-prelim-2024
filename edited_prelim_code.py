@@ -90,17 +90,27 @@ class Puzzle():
             while not Valid:
                 try:
                     Row = int(input("Enter row number: "))
-                    Valid = True
+                    if (1 <= Row <= self.__GridSize):
+                        Valid = True
+                    else:
+                        print(f"Row number must be between 1 and {self.__GridSize}")
                 except:
+                    print("Invalid row (must be an integer)")
                     pass
+                
             Column = -1
             Valid = False
             while not Valid:
                 try:
                     Column = int(input("Enter column number: "))
-                    Valid = True
+                    if (1 <= Column <= self.__GridSize):
+                        Valid = True
+                    else:
+                        print(f"Column must be between 1 and {self.__GridSize}")
                 except:
+                    print("Invalid column (must be an integer)")
                     pass
+                
             Symbol = self.__GetSymbolFromUser()
             self.__SymbolsLeft -= 1
             CurrentCell = self.__GetCell(Row, Column)
