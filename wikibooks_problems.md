@@ -11,7 +11,7 @@
 - [ ]  Question 7 - Game difficulty setting
 - [ ]  Question 8 - Fix symbols placed error
 - [ ]  Question 9 - Create a new puzzle file to be imported
-- [ ]  Question 10 - Be able to undo a move
+- [X]  Question 10 - Be able to undo a move
 - [ ]  Question 11 - Validation of Row and Column entries
 - [ ]  Question 12 - Fix the GetCell mapping issue
 - [ ]  Question 13 - Why is UpdateCell() empty and never called?
@@ -154,6 +154,31 @@ b. ensure symbolsLeft has the correct value
 c. ensure score reverts to its original value minus the 3 point undo penalty
 
 d. ensure any changes made to a cell’s symbolsNotAllowed list are undone as required
+
+```python
+import copy
+```
+
+```python
+            if lastMove:
+                Valid = False
+                while not Valid:
+                    redo = input("Would you like to redo your last move and lose 3 points? (y/N):  ").lower()
+                    if redo == "y":
+                        Valid = True
+                        self.__dict__ = lastMove
+                        self.__Score -= 3
+                        self.DisplayPuzzle()
+                        print("Current score: " + str(self.__Score))
+                        
+                    elif redo == "n":
+                        Valid = True
+                        
+```
+
+```python
+lastMove = copy.deepcopy(self.__dict__)  # Question 10
+```
 
 ## Question 11 - Validation of Row and Column entries
 

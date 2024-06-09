@@ -5,6 +5,7 @@
 
 import random
 import os
+import copy
 
 def Main():
     Again = "y"
@@ -82,9 +83,25 @@ class Puzzle():
 
     def AttemptPuzzle(self):
         Finished = False
+        lastMove = None
         while not Finished:
             self.DisplayPuzzle()
             print("Current score: " + str(self.__Score))
+
+            if lastMove:
+                Valid = False
+                while not Valid:
+                    redo = input("Would you like to redo your last move and lose 3 points? (y/N):  ").lower()
+                    if redo == "y":
+                        Valid = True
+                        self.__dict__ = lastMove
+                        self.__Score -= 3
+                        self.DisplayPuzzle()
+                        print("Current score: " + str(self.__Score))
+                        
+                    elif redo == "n":
+                        Valid = True
+                        
             Row = -1
             Valid = False
             while not Valid:
@@ -101,10 +118,13 @@ class Puzzle():
                     Valid = True
                 except:
                     pass
+                
+            lastMove = copy.deepcopy(self.__dict__)  # Question 10
+            
             Symbol = self.__GetSymbolFromUser()
             self.__SymbolsLeft -= 1
             CurrentCell = self.__GetCell(Row, Column)
-            if CurrentCell.CheckSymbolAllowed(Symbol):
+            if CurrentCell.CheckSymbolAllowed(Symbol):  
                 CurrentCell.ChangeSymbolInCell(Symbol)
                 AmountToAddToScore = self.CheckforMatchWithPattern(Row, Column)
                 if AmountToAddToScore > 0:
@@ -167,6 +187,7 @@ class Puzzle():
         return Line
 
     def DisplayPuzzle(self):
+        
         print()
         if self.__GridSize < 10:
             print("  ", end='')
