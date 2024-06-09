@@ -40,6 +40,15 @@ class Puzzle():
                 else:
                     C = BlockedCell()
                 self.__Grid.append(C)
+
+            for Count in range(3):
+                valid = False
+                while not valid:
+                    place_wildcard_at = random.randint(0, self.__GridSize * self.__GridSize) 
+                    if type(self.__Grid[place_wildcard_at]) not in [BlockedCell, Wildcard]:
+                        valid = True
+                        self.__Grid[place_wildcard_at] = Wildcard()
+            
             self.__AllowedPatterns = []
             self.__AllowedSymbols = []
             QPattern = Pattern("Q", "QQ**Q**QQ")
@@ -188,11 +197,11 @@ class Pattern():
         self.__PatternSequence = PatternString
 
     def MatchesPattern(self, PatternString, SymbolPlaced):
-        if SymbolPlaced != self.__Symbol:
+        if SymbolPlaced != self.__Symbol and not isinstance(SymbolPlaced, Wildcard):
             return False
         for Count in range(0, len(self.__PatternSequence)):
             try:
-                if self.__PatternSequence[Count] == self.__Symbol and PatternString[Count] != self.__Symbol:
+                if self.__PatternSequence[Count] == self.__Symbol and PatternString[Count] not in [self.__Symbol, Wildcard()._Symbol]:
                     return False
             except Exception as ex:
                 print(f"EXCEPTION in MatchesPattern: {ex}")
@@ -240,6 +249,17 @@ class BlockedCell(Cell):
 
     def CheckSymbolAllowed(self, SymbolToCheck):
         return False
+
+class Wildcard(Cell):
+    def __init__(self):
+        super(Wildcard, self).__init__()
+        self._Symbol = "*"
+
+    def ChangeSymbolInCell(self, NewSymbol):
+        pass
+
+    def CheckSymbolAllowed(self, SymbolToCheck):
+        return True
 
 if __name__ == "__main__":
     Main()
