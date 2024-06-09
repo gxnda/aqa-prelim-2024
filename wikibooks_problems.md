@@ -159,6 +159,7 @@ d. ensure any changes made to a cell’s symbolsNotAllowed list are undone as re
 import copy
 ```
 
+Puzzle.AttemptPuzzle()
 ```python
             if lastMove:
                 Valid = False
@@ -176,8 +177,9 @@ import copy
                         
 ```
 
+Puzzle.AttemptPuzzle()
 ```python
-lastMove = copy.deepcopy(self.__dict__)  # Question 10
+		lastMove = copy.deepcopy(self.__dict__)  # Question 10
 ```
 
 ## Question 11 - Validation of Row and Column entries
